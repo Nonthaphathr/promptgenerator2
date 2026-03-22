@@ -40,7 +40,8 @@
   .modal-title{font-family:'Kanit',sans-serif;font-size:1rem;font-weight:600;color:var(--white);margin-bottom:6px}
   .modal-sub{font-size:.78rem;color:var(--text-muted);margin-bottom:20px}
   #qr-container{display:flex;justify-content:center;align-items:center;background:white;border-radius:12px;padding:14px;margin-bottom:16px;min-height:150px}
-  #qr-container canvas,#qr-container img{display:block!important}
+  #qr-container canvas{display:block!important}
+  #qr-container img{display:none!important}
   .modal-url{font-size:.72rem;color:var(--teal-light);word-break:break-all;margin-bottom:18px;background:rgba(42,157,168,.08);padding:8px 12px;border-radius:8px}
   .modal-footer{display:flex;gap:8px;justify-content:center}
   .modal-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:100px;font-family:'Kanit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s}
@@ -202,6 +203,11 @@
         </button>
       </div>
     </div>
+    <div style="display:flex;justify-content:center;margin-bottom:18px">
+      <img src="https://img1.pic.in.th/images/prompt.png" alt="AI Prompt Generator Logo"
+        style="height:90px;width:auto;object-fit:contain;filter:drop-shadow(0 4px 18px rgba(42,157,168,0.45));transition:transform .3s"
+        onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+    </div>
     <h1>สร้าง Prompt<br>สำหรับ Generative AI</h1>
     <p>พัฒนาโดย <strong>ครูนนทพัทธ์ หิรัญเรือง</strong> · กรอกข้อมูลเพื่อสร้าง prompt พร้อมใช้งาน</p>
   </header>
@@ -320,8 +326,8 @@
         <div class="prompt-type">
           <div class="prompt-icon exam">📝</div>
           <div>
-            <div class="prompt-label">Prompt 1 — สร้างข้อสอบ 4 ตัวเลือก</div>
-            <div class="prompt-sublabel">10 ข้อ พร้อมเฉลย · รูปแบบ bullet point</div>
+            <div class="prompt-label">Prompt 1 — สรุปองค์ความรู้ + ข้อสอบ 4 ตัวเลือก</div>
+            <div class="prompt-sublabel">ค้นอินเทอร์เน็ต → สรุป 1 ย่อหน้า → 5 ข้อ พร้อมเฉลย</div>
           </div>
         </div>
         <div class="char-count" id="count1">0 ตัวอักษร</div>
@@ -337,6 +343,17 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           คัดลอก Prompt นี้
         </button>
+      </div>
+      <!-- Wayground button -->
+      <div style="padding:10px 24px 16px;border-top:1px solid var(--glass-border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(99,102,241,0.04)">
+        <span style="font-size:.75rem;color:var(--text-muted);font-family:'Kanit',sans-serif">🌐 นำผลลัพธ์ไปใช้ใน:</span>
+        <a href="https://wayground.com/admin" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:100px;font-family:'Kanit',sans-serif;font-size:.82rem;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;box-shadow:0 4px 14px rgba(99,102,241,0.4);transition:all .2s;letter-spacing:.02em"
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 20px rgba(99,102,241,0.5)'"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(99,102,241,0.4)'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          ไปเว็บ Wayground
+        </a>
       </div>
     </div>
 
@@ -385,8 +402,8 @@
         <div class="prompt-type">
           <div class="prompt-icon canva">🎨</div>
           <div>
-            <div class="prompt-label">Prompt 3 — Canva AI สร้างเกมแบบทดสอบ Interactive</div>
-            <div class="prompt-sublabel">Dynamic · ผู้ใช้แก้ไขข้อสอบได้ · Multiple / True-False</div>
+            <div class="prompt-label">Prompt 3 — Quiz Interactive พร้อม Animation</div>
+            <div class="prompt-sublabel">หน้าลงทะเบียน · โหมด Anonymous · Animated · Multiple / True-False</div>
           </div>
         </div>
         <div class="char-count" id="count3">0 ตัวอักษร</div>
@@ -430,11 +447,63 @@ function showToast(msg){
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
-function syncColor(key){document.getElementById('f_'+key).value=document.getElementById('f_'+key+'_picker').value}
+function syncColor(key){
+  document.getElementById('f_'+key).value=document.getElementById('f_'+key+'_picker').value;
+  saveFormState();
+}
 function syncColorPicker(key){
   const v=document.getElementById('f_'+key).value;
-  if(/^#[0-9a-fA-F]{6}$/.test(v))document.getElementById('f_'+key+'_picker').value=v;
+  if(/^#[0-9a-fA-F]{6}$/.test(v)){document.getElementById('f_'+key+'_picker').value=v;}
+  saveFormState();
 }
+
+/* ── LOCAL STORAGE: save & restore form ── */
+const LS_KEY='promptgen_form_v1';
+const FORM_FIELDS=['f_name','f_position','f_subject','f_school','f_topic','f_detail','f_color1','f_color2','f_style'];
+
+function saveFormState(){
+  const data={};
+  FORM_FIELDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) data[id]=el.value;
+  });
+  try{localStorage.setItem(LS_KEY,JSON.stringify(data));}catch(e){}
+}
+
+function loadFormState(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(!raw)return;
+    const data=JSON.parse(raw);
+    FORM_FIELDS.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el&&data[id]!==undefined){
+        el.value=data[id];
+        // sync color pickers
+        if(id==='f_color1'||id==='f_color2'){
+          const key=id.replace('f_','');
+          const picker=document.getElementById(id+'_picker');
+          if(picker&&/^#[0-9a-fA-F]{6}$/.test(data[id]))picker.value=data[id];
+        }
+      }
+    });
+  }catch(e){}
+}
+
+// Attach auto-save listeners after DOM ready
+function attachSaveListeners(){
+  FORM_FIELDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.addEventListener('input',saveFormState);
+    if(el&&el.tagName==='SELECT')el.addEventListener('change',saveFormState);
+  });
+}
+
+// Init on load
+window.addEventListener('DOMContentLoaded',()=>{
+  loadFormState();
+  attachSaveListeners();
+});
 
 /* ── QR MODAL ── */
 let qrDone=false;
@@ -540,21 +609,34 @@ function generatePrompts(){
   const topic=getVal('f_topic'),detail=getVal('f_detail'),color1=getVal('f_color1'),color2=getVal('f_color2'),style=getVal('f_style');
 
   /* PROMPT 1 */
-  const p1=`คุณคือผู้เชี่ยวชาญด้านการออกข้อสอบวิชา${subj} ระดับมัธยมศึกษา
-
-กรุณาสร้างข้อสอบปรนัย 4 ตัวเลือก จำนวน 10 ข้อ
+  const p1=`คุณคือผู้เชี่ยวชาญด้านการสอนวิชา${subj} ระดับมัธยมศึกษา
 
 📚 ข้อมูลผู้สอน
 - ชื่อ-สกุล: ${name} | ตำแหน่ง: ${pos}
 - กลุ่มสาระ: ${subj} | โรงเรียน: ${school}
 
-📝 เนื้อหา
-- หัวข้อ: ${topic}
-- รายละเอียด: ${detail}
+📝 หัวข้อ: ${topic}
+รายละเอียด: ${detail}
 
-📋 รูปแบบ
-- ข้อสอบปรนัย 4 ตัวเลือก 10 ข้อ ครอบคลุมเนื้อหา
-- มีระดับความยากหลากหลาย (ง่าย/กลาง/ยาก)
+═══════════════════════════════════
+ขั้นตอนที่ 1 — ค้นหาและสรุปองค์ความรู้
+═══════════════════════════════════
+กรุณาค้นหาข้อมูลจากอินเทอร์เน็ตเกี่ยวกับหัวข้อ "${topic}" แล้วเขียนสรุปเป็น
+ย่อหน้าภาษาไทย 1 ย่อหน้า (5-7 ประโยค) ครอบคลุม:
+- หลักการและความหมายพื้นฐาน
+- ประเด็นสำคัญที่นักเรียนควรรู้
+- การนำไปใช้ในชีวิตประจำวันหรือบริบทจริง
+
+รูปแบบผลลัพธ์:
+📖 สรุปองค์ความรู้: ${topic}
+[ย่อหน้าสรุป 5-7 ประโยค]
+
+═══════════════════════════════════
+ขั้นตอนที่ 2 — สร้างข้อสอบปรนัย
+═══════════════════════════════════
+สร้างข้อสอบปรนัย 4 ตัวเลือก จำนวน 5 ข้อ จากเนื้อหาข้างต้น
+- ครอบคลุมทั้งความเข้าใจและการประยุกต์ใช้
+- มีระดับความยากหลากหลาย (ง่าย / กลาง / ยาก)
 - ตัวเลือกเป็น bullet list ห้ามใส่เฉลยใต้ข้อ
 
 รูปแบบแต่ละข้อ:
@@ -564,10 +646,15 @@ function generatePrompts(){
 • ค. [ตัวเลือก]
 • ง. [ตัวเลือก]
 
-[แสดงครบ 10 ข้อก่อน แล้วขึ้นส่วนเฉลย]
+[แสดงครบ 5 ข้อก่อน แล้วขึ้นส่วนเฉลย]
+
 ---
-🔑 เฉลยทั้งหมด
-ข้อ 1. [ก/ข/ค/ง] — [เหตุผล]  ...ครบ 10 ข้อ
+🔑 เฉลยพร้อมอธิบาย
+ข้อ 1. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
+ข้อ 2. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
+ข้อ 3. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
+ข้อ 4. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
+ข้อ 5. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
 ---
 จัดทำโดย ${name} ${pos} กลุ่มสาระ${subj} ${school}`;
 
@@ -628,20 +715,64 @@ Responsive | header แสดงชื่อ "${name}" และ "${school}"
 ⚙️ เทคนิค: HTML ไฟล์เดียว, Google Fonts CDN, script พร้อม comment ไทย`;
 
   /* PROMPT 3 */
-  const p3raw=`สร้างระบบแบบทดสอบ Interactive แบบ Dynamic
-ออกแบบโดย ${name} ${pos} กลุ่มสาระ${subj} ${school}
+  const p3raw=`สร้างระบบแบบทดสอบ Interactive สวยงาม มีแอนิเมชัน
+ออกแบบโดย ${name} | ${pos} | กลุ่มสาระ${subj} | ${school}
+สีหลัก: ${color1} | สีรอง: ${color2} | สไตล์: ${style}
+รองรับ mobile + projector/fullscreen
 
-🎯 ครูเพิ่ม/แก้ไข/ลบข้อสอบได้เองโดยไม่ต้องแก้ code นักเรียนเล่นได้ทันที
+═══════════════════════════════════════
+🏠 โครงสร้างหน้าหลัก (4 หน้า)
+═══════════════════════════════════════
 
-🎨 สีหลัก ${color1} | สีรอง ${color2} | สไตล์: ${style} | รองรับ mobile + projector
+【หน้า 0】 Landing — เลือก Mode
+▸ หัวข้อเกม + ชื่อครู/โรงเรียน แบบ animated title
+▸ 2 ปุ่มใหญ่: [🏫 Mode ครู] และ [▶ เล่นเกม]
+▸ ปุ่ม "เล่นเกม" → ไปหน้าเลือกโหมดนักเรียน
 
-📋 รูปแบบข้อสอบ: Multiple Choice (4 ตัวเลือก) และ True/False เท่านั้น
+【หน้า 1】 หน้าเลือกโหมดนักเรียน
+▸ ปุ่ม [📝 ลงทะเบียน + เล่น] — บันทึกผลคะแนนพร้อมชื่อ
+▸ ปุ่ม [👤 เล่นแบบไม่ระบุตัวตน] — เล่นได้เลย ไม่บันทึกชื่อ
 
-⚙️ ฟีเจอร์: Dashboard ครู (เพิ่ม/แก้ไข/ลบ/เรียง), countdown timer, คะแนน+เฉลย, Fullscreen, canvasheet เป็นฐานข้อมูล
+【หน้า 2】 หน้าลงทะเบียน (เฉพาะโหมดลงทะเบียน)
+▸ ฟอร์มสวยงาม มี animated input fields:
+  - ชื่อจริง * (text)
+  - นามสกุล * (text)
+  - ชั้น/ห้อง * (text เช่น ม.3/1)
+  - เลขที่ * (number)
+▸ ปุ่ม [เริ่มทำแบบทดสอบ] → ไปหน้าเล่น
+▸ validation: ห้ามว่าง แสดง error animation เมื่อกด submit โดยไม่กรอก
 
-📐 โครงสร้าง: Mode ครู (จัดการ+preview) / Mode นักเรียน (เล่น+คะแนน) / Export ผลได้
+【หน้า 3】 หน้าเล่นแบบทดสอบ
+▸ header แสดงชื่อ-ห้อง-เลขที่ (ถ้าลงทะเบียน) หรือ "ไม่ระบุตัวตน"
+▸ progress bar animated
+▸ countdown timer วงกลม animated (CSS stroke-dasharray)
+▸ ข้อสอบแสดงทีละข้อ พร้อม slide-in animation
+▸ Multiple Choice: 4 ปุ่มตัวเลือก + highlight เมื่อเลือก + แสดงผลถูก/ผิด
+▸ True/False: 2 ปุ่มใหญ่ (✅ ถูก / ❌ ผิด)
+▸ เมื่อตอบ: แสดง correct (green glow + checkmark bounce) หรือ wrong (red shake + show correct answer)
+▸ ปุ่ม Fullscreen
 
-ใช้ canvasheet เป็นฐานข้อมูล`;
+【หน้า 4】 หน้าผลคะแนน
+▸ แสดงชื่อ/ห้อง/เลขที่ (ถ้ามี)
+▸ คะแนน animated counter (0 → N)
+▸ ดาว rating 0-3 ดาว based on score %
+▸ ตารางเฉลยทุกข้อ
+▸ ปุ่ม [เล่นอีกครั้ง] [กลับหน้าหลัก]
+
+═══════════════════════════════════════
+🎨 แอนิเมชันที่ต้องมี (บังคับ)
+═══════════════════════════════════════
+▸ Page transition: slide หรือ fade ระหว่างหน้า
+▸ ปุ่มทุกปุ่ม: hover scale + ripple effect เมื่อคลิก
+▸ Input focus: glowing border animation
+▸ คำถาม: fade-in + slide-up เมื่อข้อใหม่ขึ้น
+▸ คำตอบถูก: bounce + particle burst effect
+▸ คำตอบผิด: shake + brief red flash
+▸ คะแนนสุดท้าย: number count up animation + confetti (ถ้าคะแนน ≥ 80%)
+▸ ดาว: pop in ทีละดวงพร้อม delay
+
+🏫 Mode ครู: Dashboard จัดการข้อสอบ (เพิ่ม/แก้ไข/ลบ Multiple Choice + True/False)
+Countdown timer กำหนดได้ต่อข้อ | บันทึก localStorage | Export ผลคะแนนเป็น CSV`;
   const p3=p3raw.length>3800?p3raw.substring(0,3797)+'...':p3raw;
 
   document.getElementById('prompt1').value=p1;
