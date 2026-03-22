@@ -563,14 +563,16 @@ function copyVocabPrompt(){
 
 📋 รูปแบบที่ต้องการ:
 - แสดงเป็นรายการ คำละ 1 บรรทัด
-- แต่ละบรรทัด: คำศัพท์ — คำแปลภาษาไทย
+- แต่ละบรรทัด: คำศัพท์เพียงอย่างเดียว ไม่ต้องมีคำแปล ไม่ต้องมีเลข ไม่ต้องมีสัญลักษณ์นำหน้า
 - เลือกคำที่หลากหลาย ครอบคลุมเนื้อหาหลัก
 - ระดับความยากเหมาะกับนักเรียนมัธยมศึกษา
 - ห้ามซ้ำ ครบ 40 คำพอดี
 
 ตัวอย่างรูปแบบ:
-present — ปัจจุบัน
-action — การกระทำ
+present
+action
+future
+verb
 ...
 
 กรุณาแสดง 40 คำ:`;
@@ -772,7 +774,11 @@ Responsive | header แสดงชื่อ "${name}" และ "${school}"
 ▸ ดาว: pop in ทีละดวงพร้อม delay
 
 🏫 Mode ครู: Dashboard จัดการข้อสอบ (เพิ่ม/แก้ไข/ลบ Multiple Choice + True/False)
-Countdown timer กำหนดได้ต่อข้อ | บันทึก localStorage | Export ผลคะแนนเป็น CSV`;
+Countdown timer กำหนดได้ต่อข้อ | Export ผลคะแนนเป็น CSV
+
+⚠️ สำคัญมาก — ฐานข้อมูล:
+ใช้ canvasheet เป็นฐานข้อมูลหลักในการบันทึกและดึงข้อมูลข้อสอบทั้งหมด
+(ไม่ใช้ localStorage สำหรับข้อมูลข้อสอบ ใช้ canvasheet เท่านั้น)`;
   const p3=p3raw.length>3800?p3raw.substring(0,3797)+'...':p3raw;
 
   document.getElementById('prompt1').value=p1;
