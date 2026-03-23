@@ -364,7 +364,7 @@
           <div class="prompt-icon bingo">🎲</div>
           <div>
             <div class="prompt-label">Prompt 2 — สร้างระบบ Bingo HTML</div>
-            <div class="prompt-sublabel">Slot-machine animation · Shift+Enter เพิ่มหลายคำ · คำตัวอย่างใน prompt · Download PDF</div>
+            <div class="prompt-sublabel">Slot-machine animation · หลายการ์ด (1/5/10/15) · แก้ชื่อระบบได้ · คู่มือ Modal · Download PDF</div>
           </div>
         </div>
         <div class="char-count" id="count2">0 ตัวอักษร</div>
@@ -696,20 +696,41 @@ function generatePrompts(){
 ▸ ปุ่มสุ่ม: shake animation เมื่อกด
 ▸ แถบ "คำที่ออกแล้ว" แสดงประวัติ (ไม่ซ้ำ) + ปุ่มรีเซ็ต
 
-【3】 Bingo Card
+【3】 Bingo Card — สร้างหลายการ์ดพร้อมกัน
 ▸ ขนาด 3×3 และ 4×4
-▸ คลิกช่อง = mark + animation highlight
+▸ เลือกจำนวนการ์ดที่ต้องการ: 1 / 5 / 10 / 15 การ์ด (dropdown หรือปุ่มเลือก)
+▸ กดปุ่ม "สร้างการ์ด" → สุ่มคำศัพท์แตกต่างกันทุกใบ
+▸ preview การ์ดทุกใบบนหน้าจอ (scroll ดูได้)
+▸ คลิกช่องในการ์ดที่กำลังเล่น = mark + animation highlight
 ▸ ตรวจ Bingo (แถว/คอลัมน์/แนวทแยง) อัตโนมัติ
 ▸ Bingo! → confetti animation + popup แสดงความยินดี
 
-【4】 Download PDF (ใช้ jsPDF + html2canvas จาก CDN)
+【4】 แก้ไขชื่อระบบได้ (editable system name)
+▸ ชื่อระบบใน header (เช่น "Vocabulary Bingo") สามารถคลิกแก้ไขได้
+▸ กดที่ชื่อ → เปลี่ยนเป็น input field แก้ไขได้ทันที → กด Enter หรือ click นอก = บันทึก
+▸ บันทึกชื่อใหม่ใน localStorage (key: "bingo_system_name") โหลดหน้าใหม่ยังจำ
+▸ มี icon ✏️ เล็กๆ กำกับให้รู้ว่าคลิกแก้ไขได้
+
+【5】 Download PDF (ใช้ jsPDF + html2canvas จาก CDN)
 ▸ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>
 ▸ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
+▸ Download PDF รวมทุกการ์ดในไฟล์เดียว (การ์ดละ 1 หน้า A4)
 ▸ hidden render area: <div id="pdfRenderArea" style="position:fixed;left:-9999px;top:0;width:794px;background:white;z-index:-1;pointer-events:none;"></div>
 ▸ buildCardHTML() ต้องใช้ inline style ล้วน ห้ามใช้ CSS class
   container: width:794px; min-height:1123px; padding:32px 36px; background:white; box-sizing:border-box
   td: border:2px solid #333; text-align:center; vertical-align:middle
   height cell: 3×3=110px/22px font, 4×4=82px/18px font
+
+【6】 คู่มือการใช้งาน (Help Modal)
+▸ ปุ่ม "❓ วิธีใช้" หรือ icon ? มุมบนขวาของระบบ
+▸ คลิกเปิด modal แสดงคู่มือสั้นๆ สวยงาม มีหัวข้อย่อยแต่ละส่วน:
+  📋 การเพิ่มคำศัพท์ — อธิบาย Shift+Enter, Enter, นำเข้าหลายคำ
+  🎲 การสุ่มคำ — คลิกปุ่มสุ่ม, ประวัติคำที่ออก, รีเซ็ต
+  🎯 การเล่น Bingo — เลือกขนาด, เลือกจำนวนการ์ด, คลิกช่องทำเครื่องหมาย
+  📄 การ Download PDF — กดปุ่ม Download รับไฟล์ทุกการ์ด
+  ✏️ แก้ไขชื่อระบบ — คลิกที่ชื่อด้านบนเพื่อแก้ไข
+▸ ปิด modal ได้ด้วยปุ่ม ✕ หรือ click นอก modal
+▸ modal มี animation slide-down เมื่อเปิด
 
 🎨 ออกแบบ: สีหลัก ${color1} | สีรอง ${color2} | สไตล์: ${style}
 Responsive | header แสดงชื่อ "${name}" และ "${school}"
