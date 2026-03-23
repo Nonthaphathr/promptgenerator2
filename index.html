@@ -13,6 +13,7 @@
     --glass:rgba(255,255,255,0.07); --glass-border:rgba(255,255,255,0.13);
     --text-main:#e8f0f7; --text-muted:#8ba5be; --success:#2fcb8b;
     --radius:16px; --radius-sm:10px; --shadow:0 8px 32px rgba(0,0,0,0.35);
+    --firebase:#ff6d00; --firebase-light:#ff9800;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Sarabun',sans-serif;background:var(--navy);color:var(--text-main);min-height:100vh;overflow-x:hidden}
@@ -73,8 +74,10 @@
   /* STEP CARD */
   .step-card{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:32px;margin-bottom:20px;box-shadow:var(--shadow);transition:border-color .3s}
   .step-card:hover{border-color:rgba(42,157,168,.35)}
+  .step-card.firebase-card:hover{border-color:rgba(255,109,0,.35)}
   .step-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
   .step-num{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal-light));display:flex;align-items:center;justify-content:center;font-family:'Kanit',sans-serif;font-weight:700;font-size:1rem;color:white;flex-shrink:0;box-shadow:0 4px 12px rgba(26,107,114,.4)}
+  .step-num.firebase{background:linear-gradient(135deg,var(--firebase),var(--firebase-light));box-shadow:0 4px 12px rgba(255,109,0,.4)}
   .step-title{font-family:'Kanit',sans-serif;font-weight:600;font-size:1.15rem;color:var(--white)}
   .step-desc{font-size:.82rem;color:var(--text-muted);margin-top:2px}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -84,15 +87,22 @@
   .field-group.full{grid-column:1/-1}
   label{font-size:.82rem;font-weight:500;color:var(--text-muted);letter-spacing:.02em}
   label span.req{color:var(--gold);margin-left:2px}
+  label span.opt{color:var(--text-muted);font-size:.75rem;margin-left:4px;opacity:.7}
   input[type="text"],input[type="color"],textarea,select{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-sm);color:var(--white);font-family:'Sarabun',sans-serif;font-size:.95rem;padding:10px 14px;transition:border-color .2s,background .2s,box-shadow .2s;outline:none;-webkit-appearance:none}
   input[type="text"]:focus,textarea:focus,select:focus{border-color:var(--teal-light);background:rgba(42,157,168,.08);box-shadow:0 0 0 3px rgba(42,157,168,.12)}
+  textarea.firebase-input:focus{border-color:var(--firebase-light);background:rgba(255,109,0,.06);box-shadow:0 0 0 3px rgba(255,109,0,.12)}
   textarea{resize:vertical;min-height:90px;line-height:1.6}
+  textarea.config-area{min-height:160px;font-family:'Courier New',monospace;font-size:.82rem;line-height:1.7;color:#ffd580}
   select{cursor:pointer}
   select option{background:var(--navy2);color:var(--white)}
   input[type="text"]::placeholder,textarea::placeholder{color:rgba(255,255,255,.25)}
   .color-row{display:flex;align-items:center;gap:10px}
   .color-row input[type="color"]{width:44px;height:44px;padding:3px;cursor:pointer;border-radius:10px;flex-shrink:0}
   .color-row input[type="text"]{flex:1}
+
+  /* Firebase config hint */
+  .config-hint{display:flex;align-items:flex-start;gap:8px;background:rgba(255,109,0,.07);border:1px solid rgba(255,109,0,.2);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:.78rem;color:rgba(255,180,100,.85);line-height:1.5}
+  .config-hint strong{color:var(--firebase-light)}
 
   /* GENERATE BTN */
   .btn-generate{width:100%;padding:16px;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-light) 100%);border:none;border-radius:var(--radius);color:white;font-family:'Kanit',sans-serif;font-size:1.1rem;font-weight:600;cursor:pointer;letter-spacing:.03em;transition:transform .15s,box-shadow .15s,filter .15s;box-shadow:0 6px 24px rgba(26,107,114,.45);display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px}
@@ -125,7 +135,9 @@
   .prompt-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--glass-border);flex-wrap:wrap;gap:10px}
   .prompt-type{display:flex;align-items:center;gap:10px}
   .prompt-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-  .prompt-icon.exam{background:rgba(240,165,0,.15)}.prompt-icon.bingo{background:rgba(42,157,168,.15)}.prompt-icon.canva{background:rgba(47,203,139,.15)}
+  .prompt-icon.exam{background:rgba(66,133,244,.15)}
+  .prompt-icon.bingo{background:rgba(42,157,168,.15)}
+  .prompt-icon.firebase{background:rgba(255,109,0,.15)}
   .prompt-label{font-family:'Kanit',sans-serif;font-size:.95rem;font-weight:600;color:var(--white)}
   .prompt-sublabel{font-size:.75rem;color:var(--text-muted);margin-top:2px}
   .char-count{font-size:.75rem;color:var(--text-muted);background:rgba(255,255,255,.06);padding:3px 10px;border-radius:100px}
@@ -147,6 +159,10 @@
   .btn-vocab-copy{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;font-family:'Kanit',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;background:linear-gradient(135deg,rgba(240,165,0,.2),rgba(255,201,64,.25));color:var(--gold-light);border:1px solid rgba(240,165,0,.35)}
   .btn-vocab-copy:hover{background:linear-gradient(135deg,rgba(240,165,0,.3),rgba(255,201,64,.35));transform:translateY(-1px)}
   .btn-vocab-copy svg{width:13px;height:13px}
+
+  /* Firebase no-config warning */
+  .firebase-warn{padding:10px 24px 14px;border-top:1px solid rgba(255,109,0,.2);background:rgba(255,109,0,.05);display:flex;align-items:center;gap:8px;font-size:.78rem;color:rgba(255,180,100,.8);font-family:'Kanit',sans-serif}
+  .firebase-warn.hidden{display:none}
 
   .btn-reset{display:inline-flex;align-items:center;gap:8px;margin:20px auto 0;padding:10px 24px;border:1px solid var(--glass-border);border-radius:100px;background:transparent;color:var(--text-muted);font-family:'Kanit',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s}
   .btn-reset:hover{border-color:var(--teal-light);color:var(--teal-light)}
@@ -298,6 +314,31 @@
     </div>
   </div>
 
+  <!-- STEP 4 — Firebase Config -->
+  <div class="step-card firebase-card">
+    <div class="step-header">
+      <div class="step-num firebase">4</div>
+      <div>
+        <div class="step-title">🔥 Firebase Config <span style="font-size:.75rem;color:var(--firebase-light);font-weight:400">(สำหรับ Prompt 3)</span></div>
+        <div class="step-desc">วาง Firebase config ที่ได้จาก Firebase Console เพื่อสร้าง prompt ระบบข้อสอบที่เชื่อมฐานข้อมูลจริง</div>
+      </div>
+    </div>
+    <div class="form-grid cols-1">
+      <div class="field-group">
+        <label>Firebase Config <span class="opt">(ไม่บังคับ — ถ้าไม่ใส่จะใช้ config ตัวอย่าง)</span></label>
+        <textarea
+          class="config-area firebase-input"
+          id="f_firebase_config"
+          placeholder="วาง config ทั้งหมดตรงนี้ เช่น:&#10;apiKey: &quot;AIzaSy...&quot;&#10;authDomain: &quot;myproject.firebaseapp.com&quot;&#10;projectId: &quot;myproject&quot;&#10;storageBucket: &quot;myproject.appspot.com&quot;&#10;messagingSenderId: &quot;123456789&quot;&#10;appId: &quot;1:123:web:abc&quot;"
+        ></textarea>
+        <div class="config-hint">
+          <span>🔑</span>
+          <span>วิธีได้ config: เปิด <strong>Firebase Console</strong> → เลือก Project → ⚙️ Project Settings → Your apps → Web app → แสดง <strong>firebaseConfig</strong> → คัดลอกทั้งหมดวางที่นี่</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <button class="btn-generate" onclick="generatePrompts()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
     สร้าง Prompt ทั้งหมด
@@ -324,10 +365,10 @@
     <div class="prompt-card">
       <div class="prompt-card-header">
         <div class="prompt-type">
-          <div class="prompt-icon exam">📝</div>
+          <div class="prompt-icon exam">📊</div>
           <div>
-            <div class="prompt-label">Prompt 1 — สรุปองค์ความรู้ + ข้อสอบ 4 ตัวเลือก</div>
-            <div class="prompt-sublabel">ค้นอินเทอร์เน็ต → สรุป 1 ย่อหน้า → 5 ข้อ พร้อมเฉลย</div>
+            <div class="prompt-label">Prompt 1 — สร้างข้อสอบ 5 ข้อ พร้อมตาราง Import Excel</div>
+            <div class="prompt-sublabel">สั่ง Gemini → ได้ตาราง Spreadsheet ตรง template · คัดลอก → Import เข้าระบบได้ทันที</div>
           </div>
         </div>
         <div class="char-count" id="count1">0 ตัวอักษร</div>
@@ -335,8 +376,8 @@
       <div class="prompt-body"><textarea class="prompt-text" id="prompt1" oninput="updateCount(1)" spellcheck="false"></textarea></div>
       <div class="prompt-footer">
         <div class="prompt-footer-links">
+          <a class="open-with-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener" style="font-size:.72rem;padding:5px 11px"><span class="dot"></span> Gemini (แนะนำ)</a>
           <a class="open-with-btn chatgpt" href="https://chatgpt.com" target="_blank" rel="noopener" style="font-size:.72rem;padding:5px 11px"><span class="dot"></span> ChatGPT</a>
-          <a class="open-with-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener" style="font-size:.72rem;padding:5px 11px"><span class="dot"></span> Gemini</a>
           <a class="open-with-btn claude" href="https://claude.ai" target="_blank" rel="noopener" style="font-size:.72rem;padding:5px 11px"><span class="dot"></span> Claude</a>
         </div>
         <button class="btn-copy primary" id="copy1" onclick="copyPrompt(1)">
@@ -400,18 +441,24 @@
     <div class="prompt-card">
       <div class="prompt-card-header">
         <div class="prompt-type">
-          <div class="prompt-icon canva">🎨</div>
+          <div class="prompt-icon firebase">🔥</div>
           <div>
-            <div class="prompt-label">Prompt 3 — Quiz Interactive พร้อม Animation</div>
-            <div class="prompt-sublabel">หน้าลงทะเบียน · โหมด Anonymous · Animated · Multiple / True-False</div>
+            <div class="prompt-label">Prompt 3 — ระบบข้อสอบ HTML + Firebase Firestore</div>
+            <div class="prompt-sublabel">4 แท็บ · จัดการข้อสอบ · Dashboard กราฟ · Import/Export Excel · Admin login ครั้งเดียว · GitHub Pages ready</div>
           </div>
         </div>
         <div class="char-count" id="count3">0 ตัวอักษร</div>
       </div>
       <div class="prompt-body"><textarea class="prompt-text" id="prompt3" oninput="updateCount(3)" spellcheck="false"></textarea></div>
+
+      <!-- Firebase no-config warning -->
+      <div class="firebase-warn" id="firebase-warn-bar">
+        ⚠️ ยังไม่ได้ใส่ Firebase Config — prompt จะใช้ config ตัวอย่าง กรุณากลับไปกรอกที่ Step 4 ก่อน deploy จริง
+      </div>
+
       <div class="prompt-footer">
         <div class="prompt-footer-links">
-          <a class="open-with-btn canva" href="https://www.canva.com" target="_blank" rel="noopener" style="font-size:.72rem;padding:5px 11px"><span class="dot"></span> Canva AI</a>
+          <a class="open-with-btn claude" href="https://claude.ai" target="_blank" rel="noopener" style="font-size:.72rem;padding:5px 11px"><span class="dot"></span> Claude (แนะนำ)</a>
           <a class="open-with-btn chatgpt" href="https://chatgpt.com" target="_blank" rel="noopener" style="font-size:.72rem;padding:5px 11px"><span class="dot"></span> ChatGPT</a>
         </div>
         <button class="btn-copy primary" id="copy3" onclick="copyPrompt(3)">
@@ -458,8 +505,8 @@ function syncColorPicker(key){
 }
 
 /* ── LOCAL STORAGE: save & restore form ── */
-const LS_KEY='promptgen_form_v1';
-const FORM_FIELDS=['f_name','f_position','f_subject','f_school','f_topic','f_detail','f_color1','f_color2','f_style'];
+const LS_KEY='promptgen_form_v2';
+const FORM_FIELDS=['f_name','f_position','f_subject','f_school','f_topic','f_detail','f_color1','f_color2','f_style','f_firebase_config'];
 
 function saveFormState(){
   const data={};
@@ -479,7 +526,6 @@ function loadFormState(){
       const el=document.getElementById(id);
       if(el&&data[id]!==undefined){
         el.value=data[id];
-        // sync color pickers
         if(id==='f_color1'||id==='f_color2'){
           const key=id.replace('f_','');
           const picker=document.getElementById(id+'_picker');
@@ -490,7 +536,6 @@ function loadFormState(){
   }catch(e){}
 }
 
-// Attach auto-save listeners after DOM ready
 function attachSaveListeners(){
   FORM_FIELDS.forEach(id=>{
     const el=document.getElementById(id);
@@ -499,7 +544,6 @@ function attachSaveListeners(){
   });
 }
 
-// Init on load
 window.addEventListener('DOMContentLoaded',()=>{
   loadFormState();
   attachSaveListeners();
@@ -537,7 +581,6 @@ function updateCount(n){
   const el=document.getElementById('count'+n);
   el.textContent=text.length.toLocaleString()+' ตัวอักษร';
   el.className='char-count';
-  if(n===3){if(text.length>3800)el.classList.add('over');else if(text.length>3400)el.classList.add('warn')}
 }
 
 /* ── COPY PROMPT ── */
@@ -585,6 +628,17 @@ verb
   });
 }
 
+/* ── PARSE FIREBASE CONFIG ── */
+function parseFirebaseConfig(raw){
+  if(!raw||!raw.trim()) return null;
+  const fields={apiKey:'',authDomain:'',projectId:'',storageBucket:'',messagingSenderId:'',appId:''};
+  Object.keys(fields).forEach(k=>{
+    const m=raw.match(new RegExp(k+'\\s*[=:]\\s*["\']?([^"\',\\n\\r}]+)["\']?'));
+    if(m) fields[k]=m[1].trim().replace(/['"]/g,'');
+  });
+  return fields.apiKey&&fields.projectId ? fields : null;
+}
+
 function resetAll(){
   document.getElementById('output-section').classList.remove('visible');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -609,9 +663,36 @@ function generatePrompts(){
   if(!validate())return;
   const name=getVal('f_name'),pos=getVal('f_position'),subj=getVal('f_subject'),school=getVal('f_school');
   const topic=getVal('f_topic'),detail=getVal('f_detail'),color1=getVal('f_color1'),color2=getVal('f_color2'),style=getVal('f_style');
+  const rawConfig=getVal('f_firebase_config');
+  const parsedConfig=parseFirebaseConfig(rawConfig);
 
-  /* PROMPT 1 */
-  const p1=`คุณคือผู้เชี่ยวชาญด้านการสอนวิชา${subj} ระดับมัธยมศึกษา
+  // ── Firebase config block for prompt ──
+  let firebaseConfigBlock='';
+  if(parsedConfig){
+    firebaseConfigBlock=`apiKey: "${parsedConfig.apiKey}"
+authDomain: "${parsedConfig.authDomain}"
+projectId: "${parsedConfig.projectId}"
+storageBucket: "${parsedConfig.storageBucket}"
+messagingSenderId: "${parsedConfig.messagingSenderId}"
+appId: "${parsedConfig.appId}"`;
+  } else {
+    firebaseConfigBlock=`apiKey: "YOUR_API_KEY"
+authDomain: "YOUR_PROJECT.firebaseapp.com"
+projectId: "YOUR_PROJECT_ID"
+storageBucket: "YOUR_PROJECT.appspot.com"
+messagingSenderId: "YOUR_SENDER_ID"
+appId: "YOUR_APP_ID"`;
+  }
+
+  // แสดง/ซ่อน warning bar
+  const warnBar=document.getElementById('firebase-warn-bar');
+  if(parsedConfig){ warnBar.classList.add('hidden'); }
+  else { warnBar.classList.remove('hidden'); }
+
+  /* ══════════════════════════════════════
+     PROMPT 1 — ข้อสอบ + ตาราง Spreadsheet
+  ══════════════════════════════════════ */
+  const p1=`คุณคือผู้เชี่ยวชาญด้านการออกข้อสอบวิชา${subj} ระดับมัธยมศึกษา
 
 📚 ข้อมูลผู้สอน
 - ชื่อ-สกุล: ${name} | ตำแหน่ง: ${pos}
@@ -621,46 +702,44 @@ function generatePrompts(){
 รายละเอียด: ${detail}
 
 ═══════════════════════════════════
-ขั้นตอนที่ 1 — ค้นหาและสรุปองค์ความรู้
+ภารกิจ: สร้างข้อสอบ 5 ข้อ พร้อมแสดงผลใน 2 ส่วน
 ═══════════════════════════════════
-กรุณาค้นหาข้อมูลจากอินเทอร์เน็ตเกี่ยวกับหัวข้อ "${topic}" แล้วเขียนสรุปเป็น
-ย่อหน้าภาษาไทย 1 ย่อหน้า (5-7 ประโยค) ครอบคลุม:
-- หลักการและความหมายพื้นฐาน
-- ประเด็นสำคัญที่นักเรียนควรรู้
-- การนำไปใช้ในชีวิตประจำวันหรือบริบทจริง
 
-รูปแบบผลลัพธ์:
-📖 สรุปองค์ความรู้: ${topic}
-[ย่อหน้าสรุป 5-7 ประโยค]
+ส่วนที่ 1 — ตารางสำหรับ Import เข้าระบบข้อสอบ (สำคัญมาก)
+─────────────────────────────────
+แสดงผลเป็นตาราง Markdown ที่มีโครงสร้างแบบนี้เท่านั้น:
 
-═══════════════════════════════════
-ขั้นตอนที่ 2 — สร้างข้อสอบปรนัย
-═══════════════════════════════════
-สร้างข้อสอบปรนัย 4 ตัวเลือก จำนวน 5 ข้อ จากเนื้อหาข้างต้น
-- ครอบคลุมทั้งความเข้าใจและการประยุกต์ใช้
-- มีระดับความยากหลากหลาย (ง่าย / กลาง / ยาก)
-- ตัวเลือกเป็น bullet list ห้ามใส่เฉลยใต้ข้อ
+| คำถาม | A | B | C | D | เฉลย |
+|-------|---|---|---|---|------|
+| [คำถามข้อ 1] | [ตัวเลือก A] | [ตัวเลือก B] | [ตัวเลือก C] | [ตัวเลือก D] | [A หรือ B หรือ C หรือ D] |
+| [คำถามข้อ 2] | ... | ... | ... | ... | ... |
+| [คำถามข้อ 3] | ... | ... | ... | ... | ... |
+| [คำถามข้อ 4] | ... | ... | ... | ... | ... |
+| [คำถามข้อ 5] | ... | ... | ... | ... | ... |
 
-รูปแบบแต่ละข้อ:
-ข้อ N. [คำถาม]
-• ก. [ตัวเลือก]
-• ข. [ตัวเลือก]
-• ค. [ตัวเลือก]
-• ง. [ตัวเลือก]
+⚠️ กฎสำคัญสำหรับตาราง:
+- คอลัมน์ เฉลย ใส่เฉพาะตัวอักษร A, B, C หรือ D เท่านั้น (ตัวพิมพ์ใหญ่)
+- ห้ามใส่ก. ข. ค. ง. ให้ใช้ A B C D เสมอ
+- ห้ามมีข้อความพิเศษในเซลล์ ใส่เฉพาะเนื้อหาล้วนๆ
+- ตารางต้องครบ 5 แถว (ไม่นับแถวหัว)
 
-[แสดงครบ 5 ข้อก่อน แล้วขึ้นส่วนเฉลย]
+─────────────────────────────────
+ส่วนที่ 2 — เฉลยพร้อมอธิบายเหตุผล
+─────────────────────────────────
+ข้อ 1. ตอบ [A/B/C/D] — [อธิบายเหตุผล 1-2 ประโยค]
+ข้อ 2. ตอบ [A/B/C/D] — [อธิบายเหตุผล 1-2 ประโยค]
+ข้อ 3. ตอบ [A/B/C/D] — [อธิบายเหตุผล 1-2 ประโยค]
+ข้อ 4. ตอบ [A/B/C/D] — [อธิบายเหตุผล 1-2 ประโยค]
+ข้อ 5. ตอบ [A/B/C/D] — [อธิบายเหตุผล 1-2 ประโยค]
 
----
-🔑 เฉลยพร้อมอธิบาย
-ข้อ 1. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
-ข้อ 2. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
-ข้อ 3. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
-ข้อ 4. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
-ข้อ 5. [ก/ข/ค/ง] — [เหตุผล 1-2 ประโยค]
----
+─────────────────────────────────
+📌 หมายเหตุ: ผู้ใช้จะคัดลอกตารางในส่วนที่ 1 ไปวางใน Google Sheets
+แล้ว Download เป็น .xlsx เพื่อ Import เข้าระบบข้อสอบโดยตรง
 จัดทำโดย ${name} ${pos} กลุ่มสาระ${subj} ${school}`;
 
-  /* PROMPT 2 — Bingo with animation + starter vocab + bulk Shift+Enter */
+  /* ══════════════════════════════════════
+     PROMPT 2 — Bingo HTML
+  ══════════════════════════════════════ */
   const p2=`สร้างไฟล์ HTML ไฟล์เดียว (self-contained) ระบบเกม Vocabulary Bingo
 หัวข้อ: "${topic}" | วิชา: ${subj}
 ผู้พัฒนา: ${name} | ${pos} | ${school}
@@ -682,125 +761,89 @@ function generatePrompts(){
 
 📦 ตัวอย่างคำเริ่มต้น (pre-loaded เมื่อเปิดครั้งแรก — สำคัญมาก):
 ▸ โหลดคำเริ่มต้น 16 คำที่เกี่ยวกับ "${topic}" ไว้ก่อนเลย
-▸ ตัวอย่างคำที่ควรใส่ (เลือกให้ตรงหัวข้อ เช่นถ้าเรื่อง Tenses ใช้):
-  present, past, future, verb, tense, action, subject, object,
-  sentence, grammar, clause, phrase, adverb, adjective, noun, pronoun
-▸ แต่ละคำแสดง badge "ตัวอย่าง" สีทองข้างชื่อใน word list
-▸ ผู้ใช้แก้ไข/ลบได้ตามปกติ
 
 【2】 ระบบสุ่มคำ (ต้องมี Animation ชวนตื่นเต้น — บังคับทุกข้อ)
 ▸ ปุ่ม "🎲 สุ่มคำ!" ขนาดใหญ่ สะดุดตา
 ▸ Slot-machine effect: แสดงคำสุ่มเปลี่ยนเร็ว 80ms/ครั้ง นาน 800ms ก่อนหยุด
 ▸ เมื่อหยุด: ตัวอักษร bounce ขึ้นพร้อม glow/flash สีธีมหลัก 1 วินาที
 ▸ เสียง Web Audio API: tick ระหว่างสุ่ม + "ding" เมื่อหยุด
-▸ ปุ่มสุ่ม: shake animation เมื่อกด
 ▸ แถบ "คำที่ออกแล้ว" แสดงประวัติ (ไม่ซ้ำ) + ปุ่มรีเซ็ต
 
 【3】 Bingo Card — สร้างหลายการ์ดพร้อมกัน
 ▸ ขนาด 3×3 และ 4×4
-▸ เลือกจำนวนการ์ดที่ต้องการ: 1 / 5 / 10 / 15 การ์ด (dropdown หรือปุ่มเลือก)
-▸ กดปุ่ม "สร้างการ์ด" → สุ่มคำศัพท์แตกต่างกันทุกใบ
-▸ preview การ์ดทุกใบบนหน้าจอ (scroll ดูได้)
-▸ คลิกช่องในการ์ดที่กำลังเล่น = mark + animation highlight
-▸ ตรวจ Bingo (แถว/คอลัมน์/แนวทแยง) อัตโนมัติ
-▸ Bingo! → confetti animation + popup แสดงความยินดี
+▸ เลือกจำนวนการ์ด: 1 / 5 / 10 / 15 การ์ด
+▸ สุ่มคำศัพท์แตกต่างกันทุกใบ
+▸ คลิกช่อง = mark + animation highlight
+▸ ตรวจ Bingo อัตโนมัติ → confetti + popup
 
-【4】 แก้ไขชื่อระบบได้ (editable system name)
-▸ ชื่อระบบใน header (เช่น "Vocabulary Bingo") สามารถคลิกแก้ไขได้
-▸ กดที่ชื่อ → เปลี่ยนเป็น input field แก้ไขได้ทันที → กด Enter หรือ click นอก = บันทึก
-▸ บันทึกชื่อใหม่ใน localStorage (key: "bingo_system_name") โหลดหน้าใหม่ยังจำ
-▸ มี icon ✏️ เล็กๆ กำกับให้รู้ว่าคลิกแก้ไขได้
-
-【5】 Download PDF (ใช้ jsPDF + html2canvas จาก CDN)
-▸ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>
-▸ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
-▸ Download PDF รวมทุกการ์ดในไฟล์เดียว (การ์ดละ 1 หน้า A4)
-▸ hidden render area: <div id="pdfRenderArea" style="position:fixed;left:-9999px;top:0;width:794px;background:white;z-index:-1;pointer-events:none;"></div>
-▸ buildCardHTML() ต้องใช้ inline style ล้วน ห้ามใช้ CSS class
-  container: width:794px; min-height:1123px; padding:32px 36px; background:white; box-sizing:border-box
-  td: border:2px solid #333; text-align:center; vertical-align:middle
-  height cell: 3×3=110px/22px font, 4×4=82px/18px font
-
-【6】 คู่มือการใช้งาน (Help Modal)
-▸ ปุ่ม "❓ วิธีใช้" หรือ icon ? มุมบนขวาของระบบ
-▸ คลิกเปิด modal แสดงคู่มือสั้นๆ สวยงาม มีหัวข้อย่อยแต่ละส่วน:
-  📋 การเพิ่มคำศัพท์ — อธิบาย Shift+Enter, Enter, นำเข้าหลายคำ
-  🎲 การสุ่มคำ — คลิกปุ่มสุ่ม, ประวัติคำที่ออก, รีเซ็ต
-  🎯 การเล่น Bingo — เลือกขนาด, เลือกจำนวนการ์ด, คลิกช่องทำเครื่องหมาย
-  📄 การ Download PDF — กดปุ่ม Download รับไฟล์ทุกการ์ด
-  ✏️ แก้ไขชื่อระบบ — คลิกที่ชื่อด้านบนเพื่อแก้ไข
-▸ ปิด modal ได้ด้วยปุ่ม ✕ หรือ click นอก modal
-▸ modal มี animation slide-down เมื่อเปิด
+【4】 แก้ไขชื่อระบบได้ · Download PDF · คู่มือ Modal
 
 🎨 ออกแบบ: สีหลัก ${color1} | สีรอง ${color2} | สไตล์: ${style}
 Responsive | header แสดงชื่อ "${name}" และ "${school}"
+⚙️ HTML ไฟล์เดียว, Google Fonts CDN, jsPDF + html2canvas CDN`;
 
-⚙️ เทคนิค: HTML ไฟล์เดียว, Google Fonts CDN, script พร้อม comment ไทย`;
+  /* ══════════════════════════════════════
+     PROMPT 3 — Firebase Quiz System
+  ══════════════════════════════════════ */
+  const p3=`สร้างไฟล์ HTML ไฟล์เดียว (self-contained) เป็นระบบข้อสอบปรนัย 4 ตัวเลือก เชื่อมต่อ Firebase Firestore โดยใช้ config นี้:
 
-  /* PROMPT 3 */
-  const p3raw=`สร้างระบบแบบทดสอบ Interactive สวยงาม มีแอนิเมชัน
-ออกแบบโดย ${name} | ${pos} | กลุ่มสาระ${subj} | ${school}
+${firebaseConfigBlock}
+
+โหลด Firebase ผ่าน CDN (compat version) ไม่ใช้ import/export:
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"><\/script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"><\/script>
+
+ข้อมูลระบบ: ชื่อวิชา "${topic}" | ผู้พัฒนา: ${name} | ${school}
 สีหลัก: ${color1} | สีรอง: ${color2} | สไตล์: ${style}
-รองรับ mobile + projector/fullscreen
+ฟอนต์: Kanit จาก Google Fonts | ภาษาไทยทั้งหมด | Responsive
 
-═══════════════════════════════════════
-🏠 โครงสร้างหน้าหลัก (4 หน้า)
-═══════════════════════════════════════
+═══════════════════════════════════
+ระบบมี 4 แท็บหลัก
+═══════════════════════════════════
 
-【หน้า 0】 Landing — เลือก Mode
-▸ หัวข้อเกม + ชื่อครู/โรงเรียน แบบ animated title
-▸ 2 ปุ่มใหญ่: [🏫 Mode ครู] และ [▶ เล่นเกม]
-▸ ปุ่ม "เล่นเกม" → ไปหน้าเลือกโหมดนักเรียน
+แท็บ 1: ทำข้อสอบ (หน้าแรก)
+- กรอกชื่อและห้องเรียนก่อนเริ่ม หรือเลือก "โหมดไม่ระบุตัวตน"
+- แสดงคำถามทีละข้อ + ปุ่มถัดไป/ก่อนหน้า + progress bar
+- เมื่อส่งคำตอบ: แสดงคะแนนรวม + สรุปรายข้อถูก/ผิด + เฉลย
+- บันทึกผลลง Firestore collection "results": ชื่อ, ห้อง, คะแนน, คำตอบรายข้อ, timestamp
 
-【หน้า 1】 หน้าเลือกโหมดนักเรียน
-▸ ปุ่ม [📝 ลงทะเบียน + เล่น] — บันทึกผลคะแนนพร้อมชื่อ
-▸ ปุ่ม [👤 เล่นแบบไม่ระบุตัวตน] — เล่นได้เลย ไม่บันทึกชื่อ
+แท็บ 2: จัดการข้อสอบ (Admin)
+- Admin login ด้วย password — ใช้ตัวแปร adminLoggedIn เป็น boolean เดียว
+  เมื่อ login สำเร็จ ให้ unlock ทุก admin tab (แท็บ 2, 3, 4) พร้อมกันทันที
+  ไม่ต้อง login แยกแต่ละแท็บ
+- แสดงตารางข้อสอบทั้งหมด เพิ่ม/แก้ไข/ลบได้ รองรับสูงสุด 60 ข้อ
+- แต่ละข้อมี: คำถาม, ตัวเลือก A B C D, เฉลย
+- Import Excel (.xlsx) ด้วย SheetJS CDN: คอลัมน์ A=คำถาม B=A C=B D=C E=D F=เฉลย(A/B/C/D)
+  ใช้ batch.commit() สำหรับ import หลายแถวพร้อมกัน
+- Export ข้อสอบออกเป็น Excel รูปแบบเดียวกัน
+- เก็บข้อสอบใน Firestore collection "questions"
 
-【หน้า 2】 หน้าลงทะเบียน (เฉพาะโหมดลงทะเบียน)
-▸ ฟอร์มสวยงาม มี animated input fields:
-  - ชื่อจริง * (text)
-  - นามสกุล * (text)
-  - ชั้น/ห้อง * (text เช่น ม.3/1)
-  - เลขที่ * (number)
-▸ ปุ่ม [เริ่มทำแบบทดสอบ] → ไปหน้าเล่น
-▸ validation: ห้ามว่าง แสดง error animation เมื่อกด submit โดยไม่กรอก
+แท็บ 3: Dashboard (Admin — ไม่ต้อง login ซ้ำ)
+- สถิติ: จำนวนผู้เข้าสอบ, คะแนนเฉลี่ย, สูงสุด, ต่ำสุด
+- กราฟแท่ง Chart.js CDN: คะแนนเฉลี่ยแยกตามห้อง + Top 5 ข้อที่ตอบผิดมากที่สุด
+  ต้องทำ chartInstance.destroy() ก่อน re-render ทุกครั้ง
+- ตารางรายชื่อนักเรียน + filter กรองตามห้อง + pagination 15 แถว/หน้า
+- ปุ่มล้างข้อมูลผลสอบทั้งหมด (ยืนยัน 2 ครั้ง)
 
-【หน้า 3】 หน้าเล่นแบบทดสอบ
-▸ header แสดงชื่อ-ห้อง-เลขที่ (ถ้าลงทะเบียน) หรือ "ไม่ระบุตัวตน"
-▸ progress bar animated
-▸ countdown timer วงกลม animated (CSS stroke-dasharray)
-▸ ข้อสอบแสดงทีละข้อ พร้อม slide-in animation
-▸ Multiple Choice: 4 ปุ่มตัวเลือก + highlight เมื่อเลือก + แสดงผลถูก/ผิด
-▸ True/False: 2 ปุ่มใหญ่ (✅ ถูก / ❌ ผิด)
-▸ เมื่อตอบ: แสดง correct (green glow + checkmark bounce) หรือ wrong (red shake + show correct answer)
-▸ ปุ่ม Fullscreen
+แท็บ 4: ตั้งค่า (Admin — ไม่ต้อง login ซ้ำ)
+- ตั้งค่า: ชื่อระบบ, ชื่อวิชา, ชื่อผู้พัฒนา, password admin
+- เลือก color theme 3 แบบ: เขียว-เหลือง / น้ำเงิน-ขาว / ม่วง-ชมพู
+  ใช้ CSS variables สำหรับ theme switching (--primary, --bg, --border ฯลฯ)
+- บันทึกการตั้งค่าลง Firestore collection "settings" doc "main"
+  loadSettings() เรียกตอน init ทุกครั้งที่โหลดหน้า
+- QR Code ของ URL ปัจจุบัน (ใช้ qrcode.js CDN) + ปุ่มคัดลอก URL
+- ปุ่มล้างข้อมูลข้อสอบทั้งหมด ในเมนูตั้งค่า (ยืนยัน 2 ครั้ง)
 
-【หน้า 4】 หน้าผลคะแนน
-▸ แสดงชื่อ/ห้อง/เลขที่ (ถ้ามี)
-▸ คะแนน animated counter (0 → N)
-▸ ดาว rating 0-3 ดาว based on score %
-▸ ตารางเฉลยทุกข้อ
-▸ ปุ่ม [เล่นอีกครั้ง] [กลับหน้าหลัก]
+═══════════════════════════════════
+CDN ที่ใช้ทั้งหมด
+═══════════════════════════════════
+- Firebase compat 9.23.0 (app + firestore)
+- Chart.js: https://cdn.jsdelivr.net/npm/chart.js
+- SheetJS: https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js
+- QRCode.js: https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js
 
-═══════════════════════════════════════
-🎨 แอนิเมชันที่ต้องมี (บังคับ)
-═══════════════════════════════════════
-▸ Page transition: slide หรือ fade ระหว่างหน้า
-▸ ปุ่มทุกปุ่ม: hover scale + ripple effect เมื่อคลิก
-▸ Input focus: glowing border animation
-▸ คำถาม: fade-in + slide-up เมื่อข้อใหม่ขึ้น
-▸ คำตอบถูก: bounce + particle burst effect
-▸ คำตอบผิด: shake + brief red flash
-▸ คะแนนสุดท้าย: number count up animation + confetti (ถ้าคะแนน ≥ 80%)
-▸ ดาว: pop in ทีละดวงพร้อม delay
-
-🏫 Mode ครู: Dashboard จัดการข้อสอบ (เพิ่ม/แก้ไข/ลบ Multiple Choice + True/False)
-Countdown timer กำหนดได้ต่อข้อ | Export ผลคะแนนเป็น CSV
-
-⚠️ สำคัญมาก — ฐานข้อมูล:
-ใช้ canvasheet เป็นฐานข้อมูลหลักในการบันทึกและดึงข้อมูลข้อสอบทั้งหมด
-(ไม่ใช้ localStorage สำหรับข้อมูลข้อสอบ ใช้ canvasheet เท่านั้น)`;
-  const p3=p3raw.length>3800?p3raw.substring(0,3797)+'...':p3raw;
+Firestore collections: questions, results, settings
+ถ้าโค้ดยาวให้เขียนให้ครบสมบูรณ์ อย่าตัดหรือย่อโค้ด ไม่ต้องมี comment อธิบาย`;
 
   document.getElementById('prompt1').value=p1;
   document.getElementById('prompt2').value=p2;
