@@ -804,6 +804,12 @@ ${firebaseConfigBlock}
 แท็บ 1: ทำข้อสอบ (หน้าแรก)
 - กรอกชื่อและห้องเรียนก่อนเริ่ม หรือเลือก "โหมดไม่ระบุตัวตน"
 - แสดงคำถามทีละข้อ + ปุ่มถัดไป/ก่อนหน้า + progress bar
+- ระบบจับเวลาต่อข้อ (ทำงานตาม timerEnabled ใน appSettings):
+  ถ้า timerEnabled = true: แสดง countdown วงกลม animated (CSS stroke-dasharray) มุมขวาบนของการ์ดคำถาม
+  นับถอยหลังจาก timerSeconds วินาที เมื่อหมดเวลา: บันทึกว่าไม่ได้ตอบข้อนั้น + ข้ามข้อถัดไปอัตโนมัติ
+  สีแถบเปลี่ยนตามเวลาที่เหลือ: >50% = สีหลัก | 20-50% = สีส้ม | <20% = สีแดง + pulse animation
+  timer รีเซ็ตทุกครั้งที่ขึ้นข้อใหม่ และหยุดทันทีเมื่อนักเรียนเลือกคำตอบ
+  ถ้า timerEnabled = false: ซ่อน countdown ไม่มีการจำกัดเวลา
 - เมื่อส่งคำตอบ: แสดงคะแนนรวม + สรุปรายข้อถูก/ผิด + เฉลย
 - บันทึกผลลง Firestore collection "results": ชื่อ, ห้อง, คะแนน, คำตอบรายข้อ, timestamp
 
@@ -819,18 +825,30 @@ ${firebaseConfigBlock}
 - เก็บข้อสอบใน Firestore collection "questions"
 
 แท็บ 3: Dashboard (Admin — ไม่ต้อง login ซ้ำ)
-- สถิติ: จำนวนผู้เข้าสอบ, คะแนนเฉลี่ย, สูงสุด, ต่ำสุด
+- stat card 5 ใบ: จำนวนผู้เข้าสอบ, คะแนนเฉลี่ย, สูงสุด, ต่ำสุด
+  และ "ร้อยละนักเรียนที่ผ่านเกณฑ์" — คำนวณจากจำนวนคนที่ได้คะแนน% >= passPercent
+  แสดงเป็น "XX% (N/M คน)" พร้อม badge สีเขียว/แดงตามค่า
+  passPercent ดึงมาจาก appSettings.passPercent (โหลดจาก Firestore settings/main)
 - กราฟแท่ง Chart.js CDN: คะแนนเฉลี่ยแยกตามห้อง + Top 5 ข้อที่ตอบผิดมากที่สุด
   ต้องทำ chartInstance.destroy() ก่อน re-render ทุกครั้ง
-- ตารางรายชื่อนักเรียน + filter กรองตามห้อง + pagination 15 แถว/หน้า
+- ตารางรายชื่อนักเรียน: แสดงคอลัมน์ ชื่อ, ห้อง, คะแนน, และ "ผ่าน/ไม่ผ่าน"
+  badge สีเขียว "✅ ผ่าน" ถ้าคะแนน% >= passPercent, badge สีแดง "❌ ไม่ผ่าน" ถ้าต่ำกว่า
+  filter กรองตามห้อง + pagination 15 แถว/หน้า
 - ปุ่มล้างข้อมูลผลสอบทั้งหมด (ยืนยัน 2 ครั้ง)
 
 แท็บ 4: ตั้งค่า (Admin — ไม่ต้อง login ซ้ำ)
 - ตั้งค่า: ชื่อระบบ, ชื่อวิชา, ชื่อผู้พัฒนา, password admin
+- ตั้งค่าเกณฑ์ผ่าน: input number "ร้อยละคะแนนที่ผ่านเกณฑ์ (%)"
+  ค่าเริ่มต้น 60, รับค่า 1-100, บันทึกใน appSettings.passPercent
+  แสดง hint ใต้ช่อง เช่น "นักเรียนต้องได้ ≥ 60% จึงถือว่าผ่าน"
+- ตั้งค่าระบบจับเวลา:
+  toggle เปิด/ปิด "เปิดใช้จับเวลาต่อข้อ" บันทึกใน appSettings.timerEnabled (default: false)
+  input number "เวลาต่อข้อ (วินาที)" รับค่า 5-300, บันทึกใน appSettings.timerSeconds (default: 30)
+  disabled input เวลาเมื่อ toggle ปิด | แสดง hint "เวลานี้จะใช้กับทุกข้อเท่ากัน"
 - เลือก color theme 3 แบบ: เขียว-เหลือง / น้ำเงิน-ขาว / ม่วง-ชมพู
   ใช้ CSS variables สำหรับ theme switching (--primary, --bg, --border ฯลฯ)
-- บันทึกการตั้งค่าลง Firestore collection "settings" doc "main"
-  loadSettings() เรียกตอน init ทุกครั้งที่โหลดหน้า
+- บันทึกการตั้งค่าทั้งหมดรวมถึง passPercent, timerEnabled, timerSeconds ลง Firestore collection "settings" doc "main"
+  loadSettings() เรียกตอน init ทุกครั้งที่โหลดหน้า และ appSettings ต้องมี passPercent: 60, timerEnabled: false, timerSeconds: 30 เป็นค่า default
 - QR Code ของ URL ปัจจุบัน (ใช้ qrcode.js CDN) + ปุ่มคัดลอก URL
 - ปุ่มล้างข้อมูลข้อสอบทั้งหมด ในเมนูตั้งค่า (ยืนยัน 2 ครั้ง)
 
